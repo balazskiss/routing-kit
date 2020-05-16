@@ -29,14 +29,20 @@ public class Branch<Output> { // TODO: Rename Context
         The leading path that corresponds to this given branch.
     */
     public private(set) lazy var path: [String] = {
-        return self.parent.map { $0.path + [self.name] } ?? []
+        guard let parent = parent else {
+            return []
+        }
+        return parent.path + [self.name]
     }()
 
     /**
         The current depth of a given tree branch. If tip of branch, returns `0`
     */
     public private(set) lazy var depth: Int = {
-        return self.parent.map { $0.depth + 1 } ?? 0
+        guard let parent = parent else {
+            return 0
+        }
+        return parent.depth + 1
     }()
 
     /**
